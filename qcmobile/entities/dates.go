@@ -2,7 +2,10 @@ package entities
 
 import "time"
 
-const _dateFmt = "2006-01-02"
+const (
+	_dateFmt      = "2006-01-02"
+	_timestampFmt = "2006-01-02T15:04:05-0700"
+)
 
 // TimestampString -
 type TimestampString string
@@ -14,7 +17,7 @@ func (t TimestampString) String() string {
 
 // Parse -
 func (t TimestampString) Parse() (time.Time, error) {
-	return time.Parse(time.RFC3339, t.String())
+	return time.Parse(_timestampFmt, t.String())
 }
 
 // DateString -
