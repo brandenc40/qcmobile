@@ -1,22 +1,13 @@
-# FMCSA QC Mobile API Client
-
-## Example
-
-```go
 package main
 
 import (
 	"context"
 	"fmt"
 	"github.com/brandenc40/fmcsa-qc-mobile/qcmobile"
-	"net/http"
 )
 
 func main() {
-	cfg := qcmobile.Config{
-		Key:        "your-key-here",
-		HTTPClient: &http.Client{}, // (optional) so you can customize your HTTP client object
-	}
+	cfg := qcmobile.Config{Key: "your-key-goes-here"}
 	client := qcmobile.NewClient(cfg)
 	ctx := context.Background()
 
@@ -74,4 +65,3 @@ func main() {
 	}
 	fmt.Println(searchRes.Content[0].Carrier)
 }
-```

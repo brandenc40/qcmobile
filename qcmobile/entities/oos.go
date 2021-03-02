@@ -6,7 +6,7 @@ type OOSDetails struct {
 type Oos struct {
 	DotNumber            int    `json:"dotNumber"`
 	ID                   int    `json:"id"`
-	OosDate              string `json:"oosDate"`
+	OosDate              Date   `json:"oosDate"`
 	OosReason            string `json:"oosReason"`
 	OosReasonDescription string `json:"oosReasonDescription"`
 }

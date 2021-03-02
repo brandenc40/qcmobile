@@ -31,7 +31,7 @@ type Carrier struct {
 	FatalCrash                    int              `json:"fatalCrash"`
 	HazmatInspections             int              `json:"hazmatInsp"`
 	HazmatOOSInspections          int              `json:"hazmatOosInsp"`
-	HazmatOOSRate                 int              `json:"hazmatOosRate"`
+	HazmatOOSRate                 float64          `json:"hazmatOosRate"`
 	HazmatOOSRateNationalAverage  string           `json:"hazmatOosRateNationalAverage"`
 	InjCrash                      int              `json:"injCrash"`
 	IsPassengerCarrier            string           `json:"isPassengerCarrier"`

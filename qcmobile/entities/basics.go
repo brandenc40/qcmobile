@@ -9,7 +9,7 @@ type BasicsDetails struct {
 // Basic -
 type Basic struct {
 	BasicsPercentile                                      string     `json:"basicsPercentile"`
-	BasicsRunDate                                         string     `json:"basicsRunDate"`
+	BasicsRunDate                                         Timestamp  `json:"basicsRunDate"`
 	BasicsType                                            BasicsType `json:"basicsType"`
 	BasicsViolationThreshold                              string     `json:"basicsViolationThreshold"`
 	ExceededFMCSAInterventionThreshold                    string     `json:"exceededFMCSAInterventionThreshold"`
