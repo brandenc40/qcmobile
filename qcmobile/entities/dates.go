@@ -7,28 +7,28 @@ const (
 	_timestampFmt = "2006-01-02T15:04:05-0700"
 )
 
-// TimestampString -
-type TimestampString string
+// Timestamp -
+type Timestamp string
 
 // String -
-func (t TimestampString) String() string {
+func (t Timestamp) String() string {
 	return string(t)
 }
 
 // Parse -
-func (t TimestampString) Parse() (time.Time, error) {
+func (t Timestamp) Parse() (time.Time, error) {
 	return time.Parse(_timestampFmt, t.String())
 }
 
-// DateString -
-type DateString string
+// Date -
+type Date string
 
 // String -
-func (d DateString) String() string {
+func (d Date) String() string {
 	return string(d)
 }
 
 // Parse -
-func (d DateString) Parse() (time.Time, error) {
+func (d Date) Parse() (time.Time, error) {
 	return time.Parse(_dateFmt, d.String())
 }

@@ -9,7 +9,7 @@ import (
 func TestTimestampString_Parse(t *testing.T) {
 	tests := []struct {
 		name    string
-		t       TimestampString
+		t       Timestamp
 		want    time.Time
 		wantErr bool
 	}{
@@ -37,7 +37,7 @@ func TestTimestampString_Parse(t *testing.T) {
 func TestDateString_Parse(t *testing.T) {
 	tests := []struct {
 		name    string
-		d       DateString
+		d       Date
 		want    time.Time
 		wantErr bool
 	}{

@@ -1,16 +1,8 @@
 package entities
 
-// CarrierOperation -
-type CarrierOperation struct {
-	CarrierOperationCode string `json:"carrierOperationCode"`
-	CarrierOperationDesc string `json:"carrierOperationDesc"`
-}
-
-// CensusTypeID -
-type CensusTypeID struct {
-	CensusType     string `json:"censusType"`
-	CensusTypeDesc string `json:"censusTypeDesc"`
-	CensusTypeID   int    `json:"censusTypeId"`
+// CarrierDetails
+type CarrierDetails struct {
+	Carrier *Carrier `json:"carrier"`
 }
 
 // Carrier -
@@ -46,20 +38,20 @@ type Carrier struct {
 	IssScore                      interface{}      `json:"issScore"`
 	LegalName                     string           `json:"legalName"`
 	Mcs150Outdated                string           `json:"mcs150Outdated"`
-	OosDate                       DateString       `json:"oosDate"`
+	OosDate                       Date             `json:"oosDate"`
 	OosRateNationalAverageYear    string           `json:"oosRateNationalAverageYear"`
 	PhyCity                       string           `json:"phyCity"`
 	PhyCountry                    string           `json:"phyCountry"`
 	PhyState                      string           `json:"phyState"`
 	PhyStreet                     string           `json:"phyStreet"`
 	PhyZipcode                    string           `json:"phyZipcode"`
-	ReviewDate                    DateString       `json:"reviewDate"`
+	ReviewDate                    Date             `json:"reviewDate"`
 	ReviewType                    string           `json:"reviewType"`
 	SafetyRating                  string           `json:"safetyRating"`
-	SafetyRatingDate              DateString       `json:"safetyRatingDate"`
-	SafetyReviewDate              DateString       `json:"safetyReviewDate"`
+	SafetyRatingDate              Date             `json:"safetyRatingDate"`
+	SafetyReviewDate              Date             `json:"safetyReviewDate"`
 	SafetyReviewType              string           `json:"safetyReviewType"`
-	SnapshotDate                  DateString       `json:"snapshotDate"`
+	SnapshotDate                  Date             `json:"snapshotDate"`
 	StatusCode                    string           `json:"statusCode"`
 	TotalDrivers                  int              `json:"totalDrivers"`
 	TotalPowerUnits               int              `json:"totalPowerUnits"`
@@ -68,4 +60,17 @@ type Carrier struct {
 	VehicleOOSInspections         int              `json:"vehicleOosInsp"`
 	VehicleOOSRate                float64          `json:"vehicleOosRate"`
 	VehicleOOSRateNationalAverage string           `json:"vehicleOosRateNationalAverage"`
+}
+
+// CarrierOperation -
+type CarrierOperation struct {
+	CarrierOperationCode string `json:"carrierOperationCode"`
+	CarrierOperationDesc string `json:"carrierOperationDesc"`
+}
+
+// CensusTypeID -
+type CensusTypeID struct {
+	CensusType     string `json:"censusType"`
+	CensusTypeDesc string `json:"censusTypeDesc"`
+	CensusTypeID   int    `json:"censusTypeId"`
 }
