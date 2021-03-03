@@ -3,6 +3,7 @@ package qcmobile
 import (
 	"context"
 	"fmt"
+	"github.com/brandenc40/fmcsa-qc-mobile/qcmobile/entities"
 	"github.com/stretchr/testify/suite"
 	"net/http"
 	"net/http/httptest"
@@ -155,7 +156,7 @@ func (s *QCMobileClientTestSuite) TestGetOOS() {
 	res, err := s.client.GetOOS(context.Background(), oosDot)
 	s.NoError(err)
 	s.NotNil(res)
-	s.Equal("2004-06-04", res.Content[0].Oos.OosDate)
+	s.Equal(entities.Date("2004-06-04"), res.Content[0].Oos.OosDate)
 }
 
 func (s *QCMobileClientTestSuite) TestGetGetBasics() {
