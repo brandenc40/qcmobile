@@ -180,13 +180,11 @@ func (c *client) buildURL(path, query string) string {
 }
 
 func tryExtractError(resp *http.Response) error {
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return errors.New(resp.Status)
+	if body, err := io.ReadAll(resp.Body); err == nil {
+		var errResponse entities.ErrorResponse
+		if err := json.Unmarshal(body, &errResponse); err == nil {
+			return errors.New(resp.Status + ": " + errResponse.ErrMsg)
+		}
 	}
-	var errResponse entities.ErrorResponse
-	if err := json.Unmarshal(body, &errResponse); err != nil {
-		return errors.New(resp.Status)
-	}
-	return errors.New(resp.Status + ": " + errResponse.ErrMsg)
+	return errors.New(resp.Status)
 }
