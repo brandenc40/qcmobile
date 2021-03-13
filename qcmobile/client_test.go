@@ -24,15 +24,9 @@ const (
 	oosRes          = `{"content":[{"oos":{"dotNumber":885213,"id":2992,"oosDate":"2004-06-04","oosReason":"NOP","oosReasonDescription":"90 day failure to pay fine"},"_links":{"self":{"href":"https://mobile.fmcsa.dot.gov/qc/services/carriers/885213/oos/2992"}}},{"oos":{"dotNumber":885213,"id":2993,"oosDate":"2004-06-04","oosReason":"NOP","oosReasonDescription":"90 day failure to pay fine"},"_links":{"self":{"href":"https://mobile.fmcsa.dot.gov/qc/services/carriers/885213/oos/2993"}}}],"retrievalDate":"2021-03-02T05:01:11.462+0000"}`
 	basicsRes       = `{"content":[{"basic":{"basicsPercentile":"18%","basicsRunDate":"2017-01-27T05:00:00.000+0000","basicsType":{"basicsCode":"Unsafe Driving","basicsCodeMcmis":null,"basicsId":11,"basicsLongDesc":null,"basicsShortDesc":"Unsafe Driving"},"basicsViolationThreshold":"50","exceededFMCSAInterventionThreshold":"N","id":{"basicsId":11,"dotNumber":44110},"measureValue":"1.02","onRoadPerformanceThresholdViolationIndicator":"N","seriousViolationFromInvestigationPast12MonthIndicator":"N","totalInspectionWithViolation":155,"totalViolation":170},"dotNumber":null,"_links":{"self":{"href":"https://mobile.fmcsa.dot.gov/qc/services/carriers/44110/basics/11"}}},{"basic":{"basicsPercentile":"57%","basicsRunDate":"2017-01-27T05:00:00.000+0000","basicsType":{"basicsCode":"HOS Compliance","basicsCodeMcmis":null,"basicsId":12,"basicsLongDesc":null,"basicsShortDesc":"Hours-of-Service Compliance"},"basicsViolationThreshold":"50","exceededFMCSAInterventionThreshold":"Y","id":{"basicsId":12,"dotNumber":44110},"measureValue":"0.18","onRoadPerformanceThresholdViolationIndicator":"Y","seriousViolationFromInvestigationPast12MonthIndicator":"N","totalInspectionWithViolation":106,"totalViolation":119},"dotNumber":null,"_links":{"self":{"href":"https://mobile.fmcsa.dot.gov/qc/services/carriers/44110/basics/12"}}},{"basic":{"basicsPercentile":"28%","basicsRunDate":"2017-01-27T05:00:00.000+0000","basicsType":{"basicsCode":"Driver Fitness","basicsCodeMcmis":null,"basicsId":13,"basicsLongDesc":null,"basicsShortDesc":"Driver Fitness"},"basicsViolationThreshold":"65","exceededFMCSAInterventionThreshold":"N","id":{"basicsId":13,"dotNumber":44110},"measureValue":"0.03","onRoadPerformanceThresholdViolationIndicator":"N","seriousViolationFromInvestigationPast12MonthIndicator":"N","totalInspectionWithViolation":13,"totalViolation":14},"dotNumber":null,"_links":{"self":{"href":"https://mobile.fmcsa.dot.gov/qc/services/carriers/44110/basics/13"}}},{"basic":{"basicsPercentile":"0%","basicsRunDate":"2017-01-27T05:00:00.000+0000","basicsType":{"basicsCode":"Drugs/Alcohol","basicsCodeMcmis":null,"basicsId":14,"basicsLongDesc":null,"basicsShortDesc":"Controlled Substances/​Alcohol"},"basicsViolationThreshold":"65","exceededFMCSAInterventionThreshold":"N","id":{"basicsId":14,"dotNumber":44110},"measureValue":"0","onRoadPerformanceThresholdViolationIndicator":"N","seriousViolationFromInvestigationPast12MonthIndicator":"N","totalInspectionWithViolation":0,"totalViolation":0},"dotNumber":null,"_links":{"self":{"href":"https://mobile.fmcsa.dot.gov/qc/services/carriers/44110/basics/14"}}},{"basic":{"basicsPercentile":"19%","basicsRunDate":"2017-01-27T05:00:00.000+0000","basicsType":{"basicsCode":"Vehicle Maint.","basicsCodeMcmis":null,"basicsId":15,"basicsLongDesc":null,"basicsShortDesc":"Vehicle Maintenance"},"basicsViolationThreshold":"65","exceededFMCSAInterventionThreshold":"N","id":{"basicsId":15,"dotNumber":44110},"measureValue":"1.37","onRoadPerformanceThresholdViolationIndicator":"N","seriousViolationFromInvestigationPast12MonthIndicator":"N","totalInspectionWithViolation":381,"totalViolation":611},"dotNumber":null,"_links":{"self":{"href":"https://mobile.fmcsa.dot.gov/qc/services/carriers/44110/basics/15"}}}],"retrievalDate":"2021-03-02T04:32:03.523+0000"}`
 
-	carrierDot        = 101
-	errDot            = 102
-	sysMaintenanceDot = 103
-	cargoDot          = 104
-	opClassDot        = 105
-	docketDot         = 106
-	authorityDot      = 107
-	oosDot            = 108
-	basicsDot         = 109
+	successDot        = 101
+	sysMaintenanceDot = 102
+	errDot            = 103
 )
 
 func MockHandler(w http.ResponseWriter, r *http.Request) {
@@ -47,25 +41,25 @@ func MockHandler(w http.ResponseWriter, r *http.Request) {
 	case strings.Contains(r.URL.Path, strconv.Itoa(errDot)):
 		w.WriteHeader(http.StatusNotFound)
 		_, _ = fmt.Fprintln(w, errRes)
-	case strings.Contains(r.URL.Path, strconv.Itoa(carrierDot)):
+	case r.URL.Path == _basePath+strconv.Itoa(successDot):
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(carrierRes))
-	case strings.Contains(r.URL.Path, strconv.Itoa(cargoDot)):
+	case strings.Contains(r.URL.Path, _cargoPath):
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(cargoRes))
-	case strings.Contains(r.URL.Path, strconv.Itoa(opClassDot)):
+	case strings.Contains(r.URL.Path, _opClassPath):
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(opClassRes))
-	case strings.Contains(r.URL.Path, strconv.Itoa(docketDot)):
+	case strings.Contains(r.URL.Path, _carrierDocketPath):
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(docketRes))
-	case strings.Contains(r.URL.Path, strconv.Itoa(authorityDot)):
+	case strings.Contains(r.URL.Path, _authPath):
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(authorityRes))
-	case strings.Contains(r.URL.Path, strconv.Itoa(oosDot)):
+	case strings.Contains(r.URL.Path, _oosPath):
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(oosRes))
-	case strings.Contains(r.URL.Path, strconv.Itoa(basicsDot)):
+	case strings.Contains(r.URL.Path, _basicsPath):
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(basicsRes))
 	default:
@@ -122,52 +116,58 @@ func (s *QCMobileClientTestSuite) TestSearchCarrierByDocket() {
 }
 
 func (s *QCMobileClientTestSuite) TestGetCarrier() {
-	res, err := s.client.GetCarrier(context.Background(), carrierDot)
+	res, err := s.client.GetCarrier(context.Background(), successDot)
 	s.NoError(err)
 	s.NotNil(res)
 	s.Equal(158121, res.Carrier.DotNumber)
 }
 
 func (s *QCMobileClientTestSuite) TestGetCargoCarried() {
-	res, err := s.client.GetCargoCarried(context.Background(), cargoDot)
+	res, err := s.client.GetCargoCarried(context.Background(), successDot)
 	s.NoError(err)
 	s.NotNil(res)
 	s.Equal("General Freight", res[0].CargoClassDesc)
 }
 
 func (s *QCMobileClientTestSuite) TestGetOperationClassification() {
-	res, err := s.client.GetOperationClassification(context.Background(), opClassDot)
+	res, err := s.client.GetOperationClassification(context.Background(), successDot)
 	s.NoError(err)
 	s.NotNil(res)
 	s.Equal("Authorized For Hire", res[0].OperationClassDesc)
 }
 
 func (s *QCMobileClientTestSuite) TestGetDocketNumbers() {
-	res, err := s.client.GetDocketNumbers(context.Background(), docketDot)
+	res, err := s.client.GetDocketNumbers(context.Background(), successDot)
 	s.NoError(err)
 	s.NotNil(res)
 	s.Equal(1515, res[0].DocketNumber)
 }
 
 func (s *QCMobileClientTestSuite) TestGetAuthority() {
-	res, err := s.client.GetAuthority(context.Background(), authorityDot)
+	res, err := s.client.GetAuthority(context.Background(), successDot)
 	s.NoError(err)
 	s.NotNil(res)
 	s.Equal("N", res[0].CarrierAuthority.Authority)
 }
 
 func (s *QCMobileClientTestSuite) TestGetOOS() {
-	res, err := s.client.GetOOS(context.Background(), oosDot)
+	res, err := s.client.GetOOS(context.Background(), successDot)
 	s.NoError(err)
 	s.NotNil(res)
 	s.Equal(entities.Date("2004-06-04"), res[0].Oos.OosDate)
 }
 
 func (s *QCMobileClientTestSuite) TestGetGetBasics() {
-	res, err := s.client.GetBasics(context.Background(), basicsDot)
+	res, err := s.client.GetBasics(context.Background(), successDot)
 	s.NoError(err)
 	s.NotNil(res)
 	s.Equal("18%", res[0].Basic.BasicsPercentile)
+}
+
+func (s *QCMobileClientTestSuite) TestGetCompleteCarrierDetails() {
+	res, err := s.client.GetCompleteCarrierDetails(context.Background(), successDot)
+	s.NoError(err)
+	s.NotNil(res)
 }
 
 func (s *QCMobileClientTestSuite) TestErrRes() {
