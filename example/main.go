@@ -4,64 +4,69 @@ import (
 	"context"
 	"fmt"
 	"github.com/brandenc40/fmcsa-qc-mobile/qcmobile"
+	"log"
+	"net/http"
 )
 
 func main() {
-	cfg := qcmobile.Config{Key: "your-key-goes-here"}
+	cfg := qcmobile.Config{
+		Key:        "YOUR_KEY",
+		HTTPClient: &http.Client{},
+	}
 	client := qcmobile.NewClient(cfg)
 	ctx := context.Background()
 
 	carrier, err := client.GetCarrier(ctx, 53467)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
-	fmt.Println(carrier.Content.Carrier.SafetyRatingDate.Parse())
+	fmt.Println(carrier.Carrier.SafetyRatingDate.Parse())
 
 	auth, err := client.GetAuthority(ctx, 53467)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
-	fmt.Println(auth.Content[0].CarrierAuthority)
+	fmt.Println(auth[0].CarrierAuthority)
 
 	opClass, err := client.GetOperationClassification(ctx, 53467)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
-	fmt.Println(opClass.Content[0])
+	fmt.Println(opClass[0])
 
 	basics, err := client.GetBasics(ctx, 53467)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
-	fmt.Println(basics.Content[0])
+	fmt.Println(basics[0])
 
 	oos, err := client.GetOOS(ctx, 885213)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
-	fmt.Println(oos.Content[0].Oos)
+	fmt.Println(oos[0].Oos)
 
 	cargo, err := client.GetCargoCarried(ctx, 885213)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
-	fmt.Println(cargo.Content[0])
+	fmt.Println(cargo[0])
 
 	carByDock, err := client.GetCarriersByDocket(ctx, 1515)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
-	fmt.Println(carByDock.Content[0].Carrier)
+	fmt.Println(carByDock[0].Carrier)
 
 	dockets, err := client.GetDocketNumbers(ctx, 885213)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
-	fmt.Println(dockets.Content[0])
+	fmt.Println(dockets[0])
 
 	searchRes, err := client.SearchCarriersByName(ctx, "werner", 1, 5)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
-	fmt.Println(searchRes.Content[0].Carrier)
+	fmt.Println(searchRes[0].Carrier)
 }

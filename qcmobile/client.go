@@ -26,15 +26,15 @@ var ErrSystemMaintenance = errors.New("FMCSA Portal Unavailable due to Scheduled
 
 // Client -
 type Client interface {
-	SearchCarriersByName(ctx context.Context, name string, start, size int) (*entities.SearchResponse, error)
-	GetCarriersByDocket(ctx context.Context, docketNumber int) (*entities.GetCarriersByDocketResponse, error)
-	GetCarrier(ctx context.Context, dotNumber int) (*entities.CarrierResponse, error)
-	GetCargoCarried(ctx context.Context, dotNumber int) (*entities.CargoCarriedResponse, error)
-	GetOperationClassification(ctx context.Context, dotNumber int) (*entities.OperationClassificationResponse, error)
-	GetDocketNumbers(ctx context.Context, dotNumber int) (*entities.DocketNumbersResponse, error)
-	GetAuthority(ctx context.Context, dotNumber int) (*entities.AuthorityResponse, error)
-	GetOOS(ctx context.Context, dotNumber int) (*entities.OOSResponse, error)
-	GetBasics(ctx context.Context, dotNumber int) (*entities.BasicsResponse, error)
+	SearchCarriersByName(ctx context.Context, name string, start, size int) ([]*entities.CarrierDetails, error)
+	GetCarriersByDocket(ctx context.Context, docketNumber int) ([]*entities.CarrierDetails, error)
+	GetCarrier(ctx context.Context, dotNumber int) (*entities.CarrierDetails, error)
+	GetCargoCarried(ctx context.Context, dotNumber int) ([]*entities.CargoClass, error)
+	GetOperationClassification(ctx context.Context, dotNumber int) ([]*entities.OperationClass, error)
+	GetDocketNumbers(ctx context.Context, dotNumber int) ([]*entities.Docket, error)
+	GetAuthority(ctx context.Context, dotNumber int) ([]*entities.AuthorityDetails, error)
+	GetOOS(ctx context.Context, dotNumber int) ([]*entities.OOSDetails, error)
+	GetBasics(ctx context.Context, dotNumber int) ([]*entities.BasicsDetails, error)
 }
 
 // NewClient -
@@ -59,94 +59,94 @@ type client struct {
 }
 
 // SearchCarriersByName -
-func (c *client) SearchCarriersByName(ctx context.Context, carrierName string, start, size int) (*entities.SearchResponse, error) {
+func (c *client) SearchCarriersByName(ctx context.Context, carrierName string, start, size int) ([]*entities.CarrierDetails, error) {
 	path := _searchPath + carrierName
 	query := "start=" + strconv.Itoa(start) + "&size=" + strconv.Itoa(size)
 	var response entities.SearchResponse
 	if err := c.doGet(ctx, path, query, &response); err != nil {
 		return nil, err
 	}
-	return &response, nil
+	return response.Content, nil
 }
 
 // GetCarrier -
-func (c *client) GetCarrier(ctx context.Context, dotNumber int) (*entities.CarrierResponse, error) {
+func (c *client) GetCarrier(ctx context.Context, dotNumber int) (*entities.CarrierDetails, error) {
 	path := _basePath + strconv.Itoa(dotNumber)
 	var response entities.CarrierResponse
 	if err := c.doGet(ctx, path, "", &response); err != nil {
 		return nil, err
 	}
-	return &response, nil
+	return response.Content, nil
 }
 
 // GetCarriersByDocket -
-func (c *client) GetCarriersByDocket(ctx context.Context, docketNumber int) (*entities.GetCarriersByDocketResponse, error) {
+func (c *client) GetCarriersByDocket(ctx context.Context, docketNumber int) ([]*entities.CarrierDetails, error) {
 	path := _docketPath + strconv.Itoa(docketNumber)
 	var response entities.GetCarriersByDocketResponse
 	if err := c.doGet(ctx, path, "", &response); err != nil {
 		return nil, err
 	}
-	return &response, nil
+	return response.Content, nil
 }
 
 // GetCargoCarried -
-func (c *client) GetCargoCarried(ctx context.Context, dotNumber int) (*entities.CargoCarriedResponse, error) {
+func (c *client) GetCargoCarried(ctx context.Context, dotNumber int) ([]*entities.CargoClass, error) {
 	path := _basePath + strconv.Itoa(dotNumber) + "/cargo-carried"
 	var response entities.CargoCarriedResponse
 	if err := c.doGet(ctx, path, "", &response); err != nil {
 		return nil, err
 	}
-	return &response, nil
+	return response.Content, nil
 }
 
 // GetOperationClassification -
-func (c *client) GetOperationClassification(ctx context.Context, dotNumber int) (*entities.OperationClassificationResponse, error) {
+func (c *client) GetOperationClassification(ctx context.Context, dotNumber int) ([]*entities.OperationClass, error) {
 	path := _basePath + strconv.Itoa(dotNumber) + "/operation-classification"
 	var response entities.OperationClassificationResponse
 	if err := c.doGet(ctx, path, "", &response); err != nil {
 		return nil, err
 	}
-	return &response, nil
+	return response.Content, nil
 }
 
 // GetDocketNumbers -
-func (c *client) GetDocketNumbers(ctx context.Context, dotNumber int) (*entities.DocketNumbersResponse, error) {
+func (c *client) GetDocketNumbers(ctx context.Context, dotNumber int) ([]*entities.Docket, error) {
 	path := _basePath + strconv.Itoa(dotNumber) + "/docket-numbers"
 	var response entities.DocketNumbersResponse
 	if err := c.doGet(ctx, path, "", &response); err != nil {
 		return nil, err
 	}
-	return &response, nil
+	return response.Content, nil
 }
 
 // GetAuthority -
-func (c *client) GetAuthority(ctx context.Context, dotNumber int) (*entities.AuthorityResponse, error) {
+func (c *client) GetAuthority(ctx context.Context, dotNumber int) ([]*entities.AuthorityDetails, error) {
 	path := _basePath + strconv.Itoa(dotNumber) + "/authority"
 	var response entities.AuthorityResponse
 	if err := c.doGet(ctx, path, "", &response); err != nil {
 		return nil, err
 	}
-	return &response, nil
+	return response.Content, nil
 }
 
 // GetOOS -
-func (c *client) GetOOS(ctx context.Context, dotNumber int) (*entities.OOSResponse, error) {
+func (c *client) GetOOS(ctx context.Context, dotNumber int) ([]*entities.OOSDetails, error) {
 	path := _basePath + strconv.Itoa(dotNumber) + "/oos"
 	var response entities.OOSResponse
 	if err := c.doGet(ctx, path, "", &response); err != nil {
 		return nil, err
 	}
-	return &response, nil
+	return response.Content, nil
 }
 
 // GetBasics -
-func (c *client) GetBasics(ctx context.Context, dotNumber int) (*entities.BasicsResponse, error) {
+func (c *client) GetBasics(ctx context.Context, dotNumber int) ([]*entities.BasicsDetails, error) {
 	path := _basePath + strconv.Itoa(dotNumber) + "/basics"
 	var response entities.BasicsResponse
 	if err := c.doGet(ctx, path, "", &response); err != nil {
 		return nil, err
 	}
-	return &response, nil
+	return response.Content, nil
 }
 
 func (c *client) doGet(ctx context.Context, path, query string, output interface{}) error {

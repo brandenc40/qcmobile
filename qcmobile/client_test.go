@@ -36,37 +36,41 @@ const (
 )
 
 func MockHandler(w http.ResponseWriter, r *http.Request) {
-	if strings.Contains(r.URL.Path, "/carriers/name/") ||
-		strings.Contains(r.URL.Path, "/carriers/docket-number") {
+	switch {
+	case strings.Contains(r.URL.Path, "/carriers/name/"),
+		strings.Contains(r.URL.Path, "/carriers/docket-number"):
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(multiCarrierRes))
-	} else if strings.Contains(r.URL.Path, strconv.Itoa(sysMaintenanceDot)) {
+	case strings.Contains(r.URL.Path, strconv.Itoa(sysMaintenanceDot)):
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(_maintenanceIndicator))
-	} else if strings.Contains(r.URL.Path, strconv.Itoa(errDot)) {
+	case strings.Contains(r.URL.Path, strconv.Itoa(errDot)):
 		w.WriteHeader(http.StatusNotFound)
 		_, _ = fmt.Fprintln(w, errRes)
-	} else if strings.Contains(r.URL.Path, strconv.Itoa(carrierDot)) {
+	case strings.Contains(r.URL.Path, strconv.Itoa(carrierDot)):
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(carrierRes))
-	} else if strings.Contains(r.URL.Path, strconv.Itoa(cargoDot)) {
+	case strings.Contains(r.URL.Path, strconv.Itoa(cargoDot)):
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(cargoRes))
-	} else if strings.Contains(r.URL.Path, strconv.Itoa(opClassDot)) {
+	case strings.Contains(r.URL.Path, strconv.Itoa(opClassDot)):
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(opClassRes))
-	} else if strings.Contains(r.URL.Path, strconv.Itoa(docketDot)) {
+	case strings.Contains(r.URL.Path, strconv.Itoa(docketDot)):
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(docketRes))
-	} else if strings.Contains(r.URL.Path, strconv.Itoa(authorityDot)) {
+	case strings.Contains(r.URL.Path, strconv.Itoa(authorityDot)):
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(authorityRes))
-	} else if strings.Contains(r.URL.Path, strconv.Itoa(oosDot)) {
+	case strings.Contains(r.URL.Path, strconv.Itoa(oosDot)):
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(oosRes))
-	} else if strings.Contains(r.URL.Path, strconv.Itoa(basicsDot)) {
+	case strings.Contains(r.URL.Path, strconv.Itoa(basicsDot)):
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(basicsRes))
+	default:
+		w.WriteHeader(http.StatusNotFound)
+		_, _ = w.Write([]byte("404 Not Found"))
 	}
 }
 
@@ -105,65 +109,65 @@ func (s *QCMobileClientTestSuite) TestSearchCarriersByName() {
 	res, err := s.client.SearchCarriersByName(context.Background(), "test", 1, 100)
 	s.NoError(err)
 	s.NotNil(res)
-	s.Equal(2, len(res.Content))
-	s.Equal(158121, res.Content[1].Carrier.DotNumber)
+	s.Equal(2, len(res))
+	s.Equal(158121, res[1].Carrier.DotNumber)
 }
 
 func (s *QCMobileClientTestSuite) TestSearchCarrierByDocket() {
 	res, err := s.client.GetCarriersByDocket(context.Background(), 123)
 	s.NoError(err)
 	s.NotNil(res)
-	s.Equal(2, len(res.Content))
-	s.Equal(158121, res.Content[1].Carrier.DotNumber)
+	s.Equal(2, len(res))
+	s.Equal(158121, res[1].Carrier.DotNumber)
 }
 
 func (s *QCMobileClientTestSuite) TestGetCarrier() {
 	res, err := s.client.GetCarrier(context.Background(), carrierDot)
 	s.NoError(err)
 	s.NotNil(res)
-	s.Equal(158121, res.Content.Carrier.DotNumber)
+	s.Equal(158121, res.Carrier.DotNumber)
 }
 
 func (s *QCMobileClientTestSuite) TestGetCargoCarried() {
 	res, err := s.client.GetCargoCarried(context.Background(), cargoDot)
 	s.NoError(err)
 	s.NotNil(res)
-	s.Equal("General Freight", res.Content[0].CargoClassDesc)
+	s.Equal("General Freight", res[0].CargoClassDesc)
 }
 
 func (s *QCMobileClientTestSuite) TestGetOperationClassification() {
 	res, err := s.client.GetOperationClassification(context.Background(), opClassDot)
 	s.NoError(err)
 	s.NotNil(res)
-	s.Equal("Authorized For Hire", res.Content[0].OperationClassDesc)
+	s.Equal("Authorized For Hire", res[0].OperationClassDesc)
 }
 
 func (s *QCMobileClientTestSuite) TestGetDocketNumbers() {
 	res, err := s.client.GetDocketNumbers(context.Background(), docketDot)
 	s.NoError(err)
 	s.NotNil(res)
-	s.Equal(1515, res.Content[0].DocketNumber)
+	s.Equal(1515, res[0].DocketNumber)
 }
 
 func (s *QCMobileClientTestSuite) TestGetAuthority() {
 	res, err := s.client.GetAuthority(context.Background(), authorityDot)
 	s.NoError(err)
 	s.NotNil(res)
-	s.Equal("N", res.Content[0].CarrierAuthority.Authority)
+	s.Equal("N", res[0].CarrierAuthority.Authority)
 }
 
 func (s *QCMobileClientTestSuite) TestGetOOS() {
 	res, err := s.client.GetOOS(context.Background(), oosDot)
 	s.NoError(err)
 	s.NotNil(res)
-	s.Equal(entities.Date("2004-06-04"), res.Content[0].Oos.OosDate)
+	s.Equal(entities.Date("2004-06-04"), res[0].Oos.OosDate)
 }
 
 func (s *QCMobileClientTestSuite) TestGetGetBasics() {
 	res, err := s.client.GetBasics(context.Background(), basicsDot)
 	s.NoError(err)
 	s.NotNil(res)
-	s.Equal("18%", res.Content[0].Basic.BasicsPercentile)
+	s.Equal("18%", res[0].Basic.BasicsPercentile)
 }
 
 func (s *QCMobileClientTestSuite) TestErrRes() {
