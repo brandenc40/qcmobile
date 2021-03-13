@@ -78,6 +78,16 @@ func (c *client) SearchCarriersByName(ctx context.Context, carrierName string, s
 	return response.Content, nil
 }
 
+// GetCarriersByDocket -
+func (c *client) GetCarriersByDocket(ctx context.Context, docketNumber int) ([]*entities.CarrierDetails, error) {
+	path := _searchDocketPath + strconv.Itoa(docketNumber)
+	var response entities.GetCarriersByDocketResponse
+	if err := c.doGet(ctx, path, "", &response); err != nil {
+		return nil, err
+	}
+	return response.Content, nil
+}
+
 func (c *client) GetCompleteCarrierDetails(ctx context.Context, dotNumber int) (*entities.CompleteCarrierDetails, error) {
 	var (
 		carrier                  *entities.Carrier
@@ -145,16 +155,6 @@ func (c *client) GetCompleteCarrierDetails(ctx context.Context, dotNumber int) (
 func (c *client) GetCarrier(ctx context.Context, dotNumber int) (*entities.CarrierDetails, error) {
 	path := _basePath + strconv.Itoa(dotNumber)
 	var response entities.CarrierResponse
-	if err := c.doGet(ctx, path, "", &response); err != nil {
-		return nil, err
-	}
-	return response.Content, nil
-}
-
-// GetCarriersByDocket -
-func (c *client) GetCarriersByDocket(ctx context.Context, docketNumber int) ([]*entities.CarrierDetails, error) {
-	path := _searchDocketPath + strconv.Itoa(docketNumber)
-	var response entities.GetCarriersByDocketResponse
 	if err := c.doGet(ctx, path, "", &response); err != nil {
 		return nil, err
 	}
