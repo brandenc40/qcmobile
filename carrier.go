@@ -1,6 +1,6 @@
-package entities
+package qcmobile
 
-// CarrierDetails
+// CarrierDetails -
 type CarrierDetails struct {
 	Carrier *Carrier `json:"carrier"`
 }

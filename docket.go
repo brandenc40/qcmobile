@@ -1,4 +1,4 @@
-package entities
+package qcmobile
 
 // Docket -
 type Docket struct {

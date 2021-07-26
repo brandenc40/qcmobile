@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/brandenc40/fmcsa-qc-mobile/qcmobile"
+	"github.com/brandenc40/fmcsa-qc-mobile"
 	"log"
 	"net/http"
 )

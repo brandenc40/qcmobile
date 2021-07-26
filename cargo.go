@@ -1,4 +1,4 @@
-package entities
+package qcmobile
 
 // CargoClass -
 type CargoClass struct {

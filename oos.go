@@ -1,4 +1,4 @@
-package entities
+package qcmobile
 
 type OOSDetails struct {
 	Oos *Oos `json:"oos"`

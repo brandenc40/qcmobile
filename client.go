@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"github.com/brandenc40/fmcsa-qc-mobile/qcmobile/entities"
 	"io"
 	"net/http"
 	"strconv"
@@ -32,18 +31,18 @@ const (
 // ErrSystemMaintenance -
 var ErrSystemMaintenance = errors.New("FMCSA Portal Unavailable due to Scheduled System Maintenance")
 
-// Client -
+// Client - QC Mobile API Client interface
 type Client interface {
-	SearchCarriersByName(ctx context.Context, name string, start, size int) ([]*entities.CarrierDetails, error)
-	GetCompleteCarrierDetails(ctx context.Context, dotNumber int) (*entities.CompleteCarrierDetails, error)
-	GetCarriersByDocket(ctx context.Context, docketNumber int) ([]*entities.CarrierDetails, error)
-	GetCarrier(ctx context.Context, dotNumber int) (*entities.CarrierDetails, error)
-	GetCargoCarried(ctx context.Context, dotNumber int) ([]*entities.CargoClass, error)
-	GetOperationClassification(ctx context.Context, dotNumber int) ([]*entities.OperationClass, error)
-	GetDocketNumbers(ctx context.Context, dotNumber int) ([]*entities.Docket, error)
-	GetAuthority(ctx context.Context, dotNumber int) ([]*entities.AuthorityDetails, error)
-	GetOOS(ctx context.Context, dotNumber int) ([]*entities.OOSDetails, error)
-	GetBasics(ctx context.Context, dotNumber int) ([]*entities.BasicsDetails, error)
+	SearchCarriersByName(ctx context.Context, name string, start, size int) ([]*CarrierDetails, error)
+	GetCompleteCarrierDetails(ctx context.Context, dotNumber int) (*CompleteCarrierDetails, error)
+	GetCarriersByDocket(ctx context.Context, docketNumber int) ([]*CarrierDetails, error)
+	GetCarrier(ctx context.Context, dotNumber int) (*CarrierDetails, error)
+	GetCargoCarried(ctx context.Context, dotNumber int) ([]*CargoClass, error)
+	GetOperationClassification(ctx context.Context, dotNumber int) ([]*OperationClass, error)
+	GetDocketNumbers(ctx context.Context, dotNumber int) ([]*Docket, error)
+	GetAuthority(ctx context.Context, dotNumber int) ([]*AuthorityDetails, error)
+	GetOOS(ctx context.Context, dotNumber int) ([]*OOSDetails, error)
+	GetBasics(ctx context.Context, dotNumber int) ([]*BasicsDetails, error)
 }
 
 // NewClient -
@@ -68,10 +67,10 @@ type client struct {
 }
 
 // SearchCarriersByName -
-func (c *client) SearchCarriersByName(ctx context.Context, carrierName string, start, size int) ([]*entities.CarrierDetails, error) {
+func (c *client) SearchCarriersByName(ctx context.Context, carrierName string, start, size int) ([]*CarrierDetails, error) {
 	path := _searchPath + carrierName
 	query := "start=" + strconv.Itoa(start) + "&size=" + strconv.Itoa(size)
-	var response entities.SearchResponse
+	var response SearchResponse
 	if err := c.doGet(ctx, path, query, &response); err != nil {
 		return nil, err
 	}
@@ -79,27 +78,27 @@ func (c *client) SearchCarriersByName(ctx context.Context, carrierName string, s
 }
 
 // GetCarriersByDocket -
-func (c *client) GetCarriersByDocket(ctx context.Context, docketNumber int) ([]*entities.CarrierDetails, error) {
+func (c *client) GetCarriersByDocket(ctx context.Context, docketNumber int) ([]*CarrierDetails, error) {
 	path := _searchDocketPath + strconv.Itoa(docketNumber)
-	var response entities.GetCarriersByDocketResponse
+	var response GetCarriersByDocketResponse
 	if err := c.doGet(ctx, path, "", &response); err != nil {
 		return nil, err
 	}
 	return response.Content, nil
 }
 
-func (c *client) GetCompleteCarrierDetails(ctx context.Context, dotNumber int) (*entities.CompleteCarrierDetails, error) {
+func (c *client) GetCompleteCarrierDetails(ctx context.Context, dotNumber int) (*CompleteCarrierDetails, error) {
 	var (
-		carrier                  *entities.Carrier
-		cargosCarried            []*entities.CargoClass
-		operationClassifications []*entities.OperationClass
-		dockets                  []*entities.Docket
-		authorityDetails         []*entities.AuthorityDetails
-		basicsDetails            []*entities.BasicsDetails
-		oosDetails               []*entities.OOSDetails
-
-		g errgroup.Group
+		carrier                  *Carrier
+		cargosCarried            []*CargoClass
+		operationClassifications []*OperationClass
+		dockets                  []*Docket
+		authorityDetails         []*AuthorityDetails
+		basicsDetails            []*BasicsDetails
+		oosDetails               []*OOSDetails
 	)
+
+	var g errgroup.Group
 	g.Go(func() error {
 		c, err := c.GetCarrier(ctx, dotNumber)
 		if err == nil {
@@ -140,7 +139,7 @@ func (c *client) GetCompleteCarrierDetails(ctx context.Context, dotNumber int) (
 	if err := g.Wait(); err != nil {
 		return nil, err
 	}
-	return &entities.CompleteCarrierDetails{
+	return &CompleteCarrierDetails{
 		Carrier:                  carrier,
 		CargosCarried:            cargosCarried,
 		OperationClassifications: operationClassifications,
@@ -152,9 +151,9 @@ func (c *client) GetCompleteCarrierDetails(ctx context.Context, dotNumber int) (
 }
 
 // GetCarrier -
-func (c *client) GetCarrier(ctx context.Context, dotNumber int) (*entities.CarrierDetails, error) {
+func (c *client) GetCarrier(ctx context.Context, dotNumber int) (*CarrierDetails, error) {
 	path := _basePath + strconv.Itoa(dotNumber)
-	var response entities.CarrierResponse
+	var response CarrierResponse
 	if err := c.doGet(ctx, path, "", &response); err != nil {
 		return nil, err
 	}
@@ -162,9 +161,9 @@ func (c *client) GetCarrier(ctx context.Context, dotNumber int) (*entities.Carri
 }
 
 // GetCargoCarried -
-func (c *client) GetCargoCarried(ctx context.Context, dotNumber int) ([]*entities.CargoClass, error) {
+func (c *client) GetCargoCarried(ctx context.Context, dotNumber int) ([]*CargoClass, error) {
 	path := _basePath + strconv.Itoa(dotNumber) + _cargoPath
-	var response entities.CargoCarriedResponse
+	var response CargoCarriedResponse
 	if err := c.doGet(ctx, path, "", &response); err != nil {
 		return nil, err
 	}
@@ -172,9 +171,9 @@ func (c *client) GetCargoCarried(ctx context.Context, dotNumber int) ([]*entitie
 }
 
 // GetOperationClassification -
-func (c *client) GetOperationClassification(ctx context.Context, dotNumber int) ([]*entities.OperationClass, error) {
+func (c *client) GetOperationClassification(ctx context.Context, dotNumber int) ([]*OperationClass, error) {
 	path := _basePath + strconv.Itoa(dotNumber) + _opClassPath
-	var response entities.OperationClassificationResponse
+	var response OperationClassificationResponse
 	if err := c.doGet(ctx, path, "", &response); err != nil {
 		return nil, err
 	}
@@ -182,9 +181,9 @@ func (c *client) GetOperationClassification(ctx context.Context, dotNumber int) 
 }
 
 // GetDocketNumbers -
-func (c *client) GetDocketNumbers(ctx context.Context, dotNumber int) ([]*entities.Docket, error) {
+func (c *client) GetDocketNumbers(ctx context.Context, dotNumber int) ([]*Docket, error) {
 	path := _basePath + strconv.Itoa(dotNumber) + _carrierDocketPath
-	var response entities.DocketNumbersResponse
+	var response DocketNumbersResponse
 	if err := c.doGet(ctx, path, "", &response); err != nil {
 		return nil, err
 	}
@@ -192,9 +191,9 @@ func (c *client) GetDocketNumbers(ctx context.Context, dotNumber int) ([]*entiti
 }
 
 // GetAuthority -
-func (c *client) GetAuthority(ctx context.Context, dotNumber int) ([]*entities.AuthorityDetails, error) {
+func (c *client) GetAuthority(ctx context.Context, dotNumber int) ([]*AuthorityDetails, error) {
 	path := _basePath + strconv.Itoa(dotNumber) + _authPath
-	var response entities.AuthorityResponse
+	var response AuthorityResponse
 	if err := c.doGet(ctx, path, "", &response); err != nil {
 		return nil, err
 	}
@@ -202,9 +201,9 @@ func (c *client) GetAuthority(ctx context.Context, dotNumber int) ([]*entities.A
 }
 
 // GetOOS -
-func (c *client) GetOOS(ctx context.Context, dotNumber int) ([]*entities.OOSDetails, error) {
+func (c *client) GetOOS(ctx context.Context, dotNumber int) ([]*OOSDetails, error) {
 	path := _basePath + strconv.Itoa(dotNumber) + _oosPath
-	var response entities.OOSResponse
+	var response OOSResponse
 	if err := c.doGet(ctx, path, "", &response); err != nil {
 		return nil, err
 	}
@@ -212,9 +211,9 @@ func (c *client) GetOOS(ctx context.Context, dotNumber int) ([]*entities.OOSDeta
 }
 
 // GetBasics -
-func (c *client) GetBasics(ctx context.Context, dotNumber int) ([]*entities.BasicsDetails, error) {
+func (c *client) GetBasics(ctx context.Context, dotNumber int) ([]*BasicsDetails, error) {
 	path := _basePath + strconv.Itoa(dotNumber) + _basicsPath
-	var response entities.BasicsResponse
+	var response BasicsResponse
 	if err := c.doGet(ctx, path, "", &response); err != nil {
 		return nil, err
 	}
@@ -253,7 +252,7 @@ func (c *client) buildURL(path, query string) string {
 
 func tryExtractError(resp *http.Response) error {
 	if body, err := io.ReadAll(resp.Body); err == nil {
-		var errResponse entities.ErrorResponse
+		var errResponse ErrorResponse
 		if err := json.Unmarshal(body, &errResponse); err == nil {
 			return errors.New(resp.Status + ": " + errResponse.ErrMsg)
 		}

@@ -1,4 +1,4 @@
-package entities
+package qcmobile
 
 import (
 	"reflect"

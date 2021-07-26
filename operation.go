@@ -1,4 +1,4 @@
-package entities
+package qcmobile
 
 // OperationClass -
 type OperationClass struct {

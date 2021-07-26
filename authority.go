@@ -1,4 +1,4 @@
-package entities
+package qcmobile
 
 // AuthorityDetails -
 type AuthorityDetails struct {

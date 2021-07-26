@@ -1,4 +1,4 @@
-package entities
+package qcmobile
 
 // BasicsDetails -
 type BasicsDetails struct {

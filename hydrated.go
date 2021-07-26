@@ -1,4 +1,4 @@
-package entities
+package qcmobile
 
 // CompleteCarrierDetails -
 type CompleteCarrierDetails struct {

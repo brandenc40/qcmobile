@@ -3,7 +3,6 @@ package qcmobile
 import (
 	"context"
 	"fmt"
-	"github.com/brandenc40/fmcsa-qc-mobile/qcmobile/entities"
 	"github.com/stretchr/testify/suite"
 	"net/http"
 	"net/http/httptest"
@@ -154,7 +153,7 @@ func (s *QCMobileClientTestSuite) TestGetOOS() {
 	res, err := s.client.GetOOS(context.Background(), successDot)
 	s.NoError(err)
 	s.NotNil(res)
-	s.Equal(entities.Date("2004-06-04"), res[0].Oos.OosDate)
+	s.Equal(Date("2004-06-04"), res[0].Oos.OosDate)
 }
 
 func (s *QCMobileClientTestSuite) TestGetGetBasics() {
@@ -196,4 +195,19 @@ func (s *QCMobileClientTestSuite) TestBuildURL() {
 
 	expected := "https://mobile.fmcsa.dot.gov/qc/services/carriers/name/carrierName?webKey=my-key&start=1&size=2"
 	s.Equal(expected, c.buildURL(path, query))
+}
+
+func BenchmarkClient_GetCarrier(b *testing.B) {
+	testServer := httptest.NewServer(http.HandlerFunc(MockHandler))
+	testURL, _ := url.Parse(testServer.URL)
+	client := &client{
+		http:   &http.Client{},
+		key:    "a-fake-key",
+		host:   testURL.Host,
+		scheme: testURL.Scheme,
+	}
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_, _ = client.GetCarrier(context.Background(), successDot)
+	}
 }
