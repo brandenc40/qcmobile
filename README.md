@@ -40,7 +40,7 @@ func main() {
 	// build client
 	cfg := qcmobile.Config{
 		Key:        "YOUR_KEY",
-		HTTPClient: &http.Client{},
+		HTTPClient: &http.Client{}, // OPTIONAL - will default to &http.Client{} if nil
 	}
 	client := qcmobile.NewClient(cfg)
 	
