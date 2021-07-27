@@ -7,6 +7,10 @@ Unofficial API client
 
 https://mobile.fmcsa.dot.gov/QCDevsite/home
 
+```
+go get github.com/brandenc40/qcmobile
+```
+
 ## Client Interface
 
 ```go
