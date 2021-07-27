@@ -1,9 +1,12 @@
 package qcmobile
 
+// OOSDetails - Out of Service details
 type OOSDetails struct {
-	Oos *Oos `json:"oos"`
+	Oos *OOS `json:"oos"`
 }
-type Oos struct {
+
+// OOS - Out of Service
+type OOS struct {
 	DotNumber            int    `json:"dotNumber"`
 	ID                   int    `json:"id"`
 	OosDate              Date   `json:"oosDate"`
