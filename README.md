@@ -1,5 +1,7 @@
 # FMCSA QC Mobile API Client
 
+Unofficial API client
+
 ## Client Interface
 
 ```go
