@@ -22,7 +22,7 @@ type Client interface {
 }
 ```
 
-## New Client
+## Example Usage
 
 ```go
 package main
@@ -37,15 +37,18 @@ import (
 )
 
 func main() {
+	// build client
 	cfg := qcmobile.Config{
 		Key:        "YOUR_KEY",
 		HTTPClient: &http.Client{},
 	}
 	client := qcmobile.NewClient(cfg)
 	
+	// build context to handle function timeout
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
 	
+	// get carrier from QC Mobile and print
 	carrier, err := client.GetCarrier(ctx, 53467)
 	if err != nil {
 		// handle error
