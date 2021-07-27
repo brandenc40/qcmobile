@@ -25,6 +25,8 @@ type Client interface {
 ## New Client
 
 ```go
+import "github.com/brandenc40/qcmobile"
+
 cfg := qcmobile.Config{
     Key:        "your-key-here",
     HTTPClient: &http.Client{}, // (optional) so you can customize your HTTP client object

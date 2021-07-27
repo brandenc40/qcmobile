@@ -1,4 +1,4 @@
-module github.com/brandenc40/fmcsa-qc-mobile
+module github.com/brandenc40/qcmobile
 
 go 1.16
 
