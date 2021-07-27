@@ -25,11 +25,31 @@ type Client interface {
 ## New Client
 
 ```go
-import "github.com/brandenc40/qcmobile"
+package main
 
-cfg := qcmobile.Config{
-    Key:        "your-key-here",
-    HTTPClient: &http.Client{}, // (optional) so you can customize your HTTP client object
+import (
+	"context"
+	"fmt"
+	"net/http"
+	"time"
+
+	"github.com/brandenc40/qcmobile"
+)
+
+func main() {
+	cfg := qcmobile.Config{
+		Key:        "YOUR_KEY",
+		HTTPClient: &http.Client{},
+	}
+	client := qcmobile.NewClient(cfg)
+	
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer cancel()
+	
+	carrier, err := client.GetCarrier(ctx, 53467)
+	if err != nil {
+		// handle error
+	}
+	fmt.Println(carrier.Carrier)
 }
-client := qcmobile.NewClient(cfg)
 ```

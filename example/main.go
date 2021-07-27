@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/brandenc40/qcmobile"
 )
@@ -16,7 +17,8 @@ func main() {
 	}
 	client := qcmobile.NewClient(cfg)
 	ctx := context.Background()
-
+	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
+	defer cancel()
 	carrier, err := client.GetCarrier(ctx, 53467)
 	if err != nil {
 		log.Fatal(err)
