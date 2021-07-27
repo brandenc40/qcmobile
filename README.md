@@ -1,6 +1,7 @@
 # FMCSA QC Mobile API Client
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/brandenc40/qcmobile.svg)](https://pkg.go.dev/github.com/brandenc40/qcmobile)
+[![Go Report Card](https://goreportcard.com/badge/github.com/brandenc40/qcmobile)](https://goreportcard.com/report/github.com/brandenc40/qcmobile)
 
 Unofficial API client
 
