@@ -9,5 +9,5 @@ type CargoClass struct {
 // CargoID -
 type CargoID struct {
 	CargoClassID int `json:"cargoClassId"`
-	DotNumber    int `json:"dotNumber"`
+	DOTNumber    int `json:"dotNumber"`
 }

@@ -79,11 +79,9 @@ func (s *QCMobileClientTestSuite) SetupTest() {
 	s.testServer = httptest.NewServer(http.HandlerFunc(MockHandler))
 	testURL, err := url.Parse(s.testServer.URL)
 	s.NoError(err)
-	s.client = &client{
-		http:      &http.Client{},
-		uri:       testURL.Scheme + "://" + testURL.Host,
-		baseQuery: "?webKey=" + "a-fake-key",
-	}
+	client := NewClient(Config{}).(*client)
+	client.uri = testURL.Scheme + "://" + testURL.Host
+	s.client = client
 }
 
 func (s *QCMobileClientTestSuite) TearDownTest() {

@@ -17,6 +17,6 @@ type CarrierAuthority struct {
 	CommonAuthorityStatus       string `json:"commonAuthorityStatus"`
 	ContractAuthorityStatus     string `json:"contractAuthorityStatus"`
 	DocketNumber                int    `json:"docketNumber"`
-	DotNumber                   int    `json:"dotNumber"`
+	DOTNumber                   int    `json:"dotNumber"`
 	Prefix                      string `json:"prefix"`
 }
