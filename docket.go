@@ -4,6 +4,6 @@ package qcmobile
 type Docket struct {
 	DocketNumber   int    `json:"docketNumber"`
 	DocketNumberID int    `json:"docketNumberId"`
-	DotNumber      int    `json:"dotNumber"`
+	DOTNumber      int    `json:"dotNumber"`
 	Prefix         string `json:"prefix"`
 }

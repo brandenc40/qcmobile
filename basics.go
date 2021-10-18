@@ -3,7 +3,7 @@ package qcmobile
 // BasicsDetails -
 type BasicsDetails struct {
 	Basic     Basic  `json:"basic"`
-	DotNumber string `json:"dotNumber"`
+	DOTNumber string `json:"dotNumber"`
 }
 
 // Basic -

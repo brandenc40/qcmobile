@@ -21,8 +21,8 @@ type Carrier struct {
 	CommonAuthorityStatus         string           `json:"commonAuthorityStatus"`
 	ContractAuthorityStatus       string           `json:"contractAuthorityStatus"`
 	CrashTotal                    int              `json:"crashTotal"`
-	DbaName                       string           `json:"dbaName"`
-	DotNumber                     int              `json:"dotNumber"`
+	DBAName                       string           `json:"dbaName"`
+	DOTNumber                     int              `json:"dotNumber"`
 	DriverInspections             int              `json:"driverInsp"`
 	DriverOOSInspections          int              `json:"driverOosInsp"`
 	DriverOOSRate                 float64          `json:"driverOosRate"`
@@ -35,11 +35,11 @@ type Carrier struct {
 	HazmatOOSRateNationalAverage  string           `json:"hazmatOosRateNationalAverage"`
 	InjCrash                      int              `json:"injCrash"`
 	IsPassengerCarrier            string           `json:"isPassengerCarrier"`
-	IssScore                      interface{}      `json:"issScore"`
+	ISSScore                      interface{}      `json:"issScore"`
 	LegalName                     string           `json:"legalName"`
-	Mcs150Outdated                string           `json:"mcs150Outdated"`
-	OosDate                       Date             `json:"oosDate"`
-	OosRateNationalAverageYear    string           `json:"oosRateNationalAverageYear"`
+	MCS150Outdated                string           `json:"mcs150Outdated"`
+	OOSDate                       Date             `json:"oosDate"`
+	OOSRateNationalAverageYear    string           `json:"oosRateNationalAverageYear"`
 	PhyCity                       string           `json:"phyCity"`
 	PhyCountry                    string           `json:"phyCountry"`
 	PhyState                      string           `json:"phyState"`
@@ -55,7 +55,7 @@ type Carrier struct {
 	StatusCode                    string           `json:"statusCode"`
 	TotalDrivers                  int              `json:"totalDrivers"`
 	TotalPowerUnits               int              `json:"totalPowerUnits"`
-	TowawayCrash                  int              `json:"towawayCrash"`
+	TowAwayCrash                  int              `json:"towawayCrash"`
 	VehicleInspections            int              `json:"vehicleInsp"`
 	VehicleOOSInspections         int              `json:"vehicleOosInsp"`
 	VehicleOOSRate                float64          `json:"vehicleOosRate"`

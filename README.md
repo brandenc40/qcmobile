@@ -17,15 +17,15 @@ go get github.com/brandenc40/qcmobile
 // Client - QC Mobile API Client interface
 type Client interface {
     SearchCarriersByName(ctx context.Context, name string, start, size int) ([]*CarrierDetails, error)
-    GetCompleteCarrierDetails(ctx context.Context, dotNumber int) (*CompleteCarrierDetails, error)
-    GetCarriersByDocket(ctx context.Context, docketNumber int) ([]*CarrierDetails, error)
-    GetCarrier(ctx context.Context, dotNumber int) (*CarrierDetails, error)
-    GetCargoCarried(ctx context.Context, dotNumber int) ([]*CargoClass, error)
-    GetOperationClassification(ctx context.Context, dotNumber int) ([]*OperationClass, error)
-    GetDocketNumbers(ctx context.Context, dotNumber int) ([]*Docket, error)
-    GetAuthority(ctx context.Context, dotNumber int) ([]*AuthorityDetails, error)
-    GetOOS(ctx context.Context, dotNumber int) ([]*OOSDetails, error)
-    GetBasics(ctx context.Context, dotNumber int) ([]*BasicsDetails, error)
+    GetCompleteCarrierDetails(ctx context.Context, dotNumber string) (*CompleteCarrierDetails, error)
+    GetCarriersByDocket(ctx context.Context, docketNumber string) ([]*CarrierDetails, error)
+    GetCarrier(ctx context.Context, dotNumber string) (*CarrierDetails, error)
+    GetCargoCarried(ctx context.Context, dotNumber string) ([]*CargoClass, error)
+    GetOperationClassification(ctx context.Context, dotNumber string) ([]*OperationClass, error)
+    GetDocketNumbers(ctx context.Context, dotNumber string) ([]*Docket, error)
+    GetAuthority(ctx context.Context, dotNumber string) ([]*AuthorityDetails, error)
+    GetOOS(ctx context.Context, dotNumber string) ([]*OOSDetails, error)
+    GetBasics(ctx context.Context, dotNumber string) ([]*BasicsDetails, error)
 }
 ```
 
@@ -56,7 +56,7 @@ func main() {
 	defer cancel()
 	
 	// get carrier from QC Mobile and print
-	carrier, err := client.GetCarrier(ctx, 53467)
+	carrier, err := client.GetCarrier(ctx, "53467")
 	if err != nil {
 		// handle error
 	}

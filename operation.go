@@ -8,6 +8,6 @@ type OperationClass struct {
 
 // OperationID -
 type OperationID struct {
-	DotNumber        int `json:"dotNumber"`
+	DOTNumber        int `json:"dotNumber"`
 	OperationClassID int `json:"operationClassId"`
 }

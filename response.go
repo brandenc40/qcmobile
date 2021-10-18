@@ -1,60 +1,50 @@
 package qcmobile
 
-// ErrorResponse -
-type ErrorResponse struct {
+type errorResponse struct {
 	ErrMsg string `json:"content"`
 }
 
-// SearchResponse -
-type SearchResponse struct {
+type searchResponse struct {
 	Content     []*CarrierDetails `json:"content"`
 	RetrievedAt Timestamp         `json:"retrievalDate"`
 }
 
-// GetCarriersByDocketResponse -
-type GetCarriersByDocketResponse struct {
+type getCarriersByDocketResponse struct {
 	Content     []*CarrierDetails `json:"content"`
 	RetrievedAt Timestamp         `json:"retrievalDate"`
 }
 
-// CarrierResponse -
-type CarrierResponse struct {
+type carrierResponse struct {
 	Content     *CarrierDetails `json:"content"`
 	RetrievedAt Timestamp       `json:"retrievalDate"`
 }
 
-// CargoCarriedResponse -
-type CargoCarriedResponse struct {
+type cargoCarriedResponse struct {
 	Content     []*CargoClass `json:"content"`
 	RetrievedAt Timestamp     `json:"retrievalDate"`
 }
 
-// OperationClassificationResponse -
-type OperationClassificationResponse struct {
+type operationClassificationResponse struct {
 	Content     []*OperationClass `json:"content"`
 	RetrievedAt Timestamp         `json:"retrievalDate"`
 }
 
-// DocketNumbersResponse -
-type DocketNumbersResponse struct {
+type docketNumbersResponse struct {
 	Content     []*Docket `json:"content"`
 	RetrievedAt Timestamp `json:"retrievalDate"`
 }
 
-// AuthorityResponse -
-type AuthorityResponse struct {
+type authorityResponse struct {
 	Content     []*AuthorityDetails `json:"content"`
 	RetrievedAt Timestamp           `json:"retrievalDate"`
 }
 
-// BasicsResponse -
-type BasicsResponse struct {
+type basicsResponse struct {
 	Content     []*BasicsDetails `json:"content"`
 	RetrievedAt Timestamp        `json:"retrievalDate"`
 }
 
-// OOSResponse -
-type OOSResponse struct {
+type oosResponse struct {
 	Content     []*OOSDetails `json:"content"`
 	RetrievedAt Timestamp     `json:"retrievalDate"`
 }
