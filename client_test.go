@@ -41,7 +41,7 @@ func MockHandler(w http.ResponseWriter, r *http.Request) {
 	case strings.Contains(r.URL.Path, errDot):
 		w.WriteHeader(http.StatusNotFound)
 		_, _ = fmt.Fprintln(w, errRes)
-	case r.URL.Path == successDot:
+	case r.URL.Path == _basePath+successDot:
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(carrierRes))
 	case strings.Contains(r.URL.Path, _cargoPath):
@@ -80,7 +80,7 @@ func (s *QCMobileClientTestSuite) SetupTest() {
 	testURL, err := url.Parse(s.testServer.URL)
 	s.NoError(err)
 	client := NewClient(Config{}).(*client)
-	client.uri = testURL.Scheme + "://" + testURL.Host
+	client.uri = testURL.Scheme + "://" + testURL.Host + _basePath
 	s.client = client
 }
 
@@ -182,7 +182,7 @@ func (s *QCMobileClientTestSuite) TestMaintenanceErr() {
 }
 
 func (s *QCMobileClientTestSuite) TestBuildURL() {
-	c := NewClient(Config{}).(*client)
+	c := NewClient(Config{Key: "my-key"}).(*client)
 	path := _searchPath + "carrierName"
 	query := "start=" + strconv.Itoa(1) + "&size=" + strconv.Itoa(2)
 

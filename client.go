@@ -13,7 +13,8 @@ import (
 )
 
 const (
-	_uri               = "https://mobile.fmcsa.dot.gov/qc/services/carriers/"
+	_basePath          = "/qc/services/carriers/"
+	_uri               = "https://mobile.fmcsa.dot.gov" + _basePath
 	_searchDocketPath  = "docket-number/"
 	_searchPath        = "name/"
 	_cargoPath         = "/cargo-carried"
