@@ -68,6 +68,14 @@ func MockHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func buildTestClientAndServer() (Client, *httptest.Server) {
+	testServer := httptest.NewServer(http.HandlerFunc(MockHandler))
+	testURL, _ := url.Parse(testServer.URL)
+	client := NewClient(Config{}).(*client)
+	client.uri = testURL.Scheme + "://" + testURL.Host + _basePath
+	return client, testServer
+}
+
 type QCMobileClientTestSuite struct {
 	suite.Suite
 
@@ -75,16 +83,11 @@ type QCMobileClientTestSuite struct {
 	testServer *httptest.Server
 }
 
-func (s *QCMobileClientTestSuite) SetupTest() {
-	s.testServer = httptest.NewServer(http.HandlerFunc(MockHandler))
-	testURL, err := url.Parse(s.testServer.URL)
-	s.NoError(err)
-	client := NewClient(Config{}).(*client)
-	client.uri = testURL.Scheme + "://" + testURL.Host + _basePath
-	s.client = client
+func (s *QCMobileClientTestSuite) SetupSuite() {
+	s.client, s.testServer = buildTestClientAndServer()
 }
 
-func (s *QCMobileClientTestSuite) TearDownTest() {
+func (s *QCMobileClientTestSuite) TearDownSuite() {
 	s.testServer.Close()
 }
 
@@ -191,13 +194,12 @@ func (s *QCMobileClientTestSuite) TestBuildURL() {
 }
 
 func BenchmarkClient_GetCarrier(b *testing.B) {
-	testServer := httptest.NewServer(http.HandlerFunc(MockHandler))
-	testURL, _ := url.Parse(testServer.URL)
-	client := NewClient(Config{}).(*client)
-	client.uri = testURL.Scheme + "://" + testURL.Host
+	client, testServer := buildTestClientAndServer()
+	defer testServer.Close()
 	b.ReportAllocs()
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_, _ = client.GetCarrier(context.Background(), successDot)
 	}
+	b.StopTimer()
 }
